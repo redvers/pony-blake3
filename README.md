@@ -47,3 +47,227 @@ actor Main
     // … and the results will be the same
     env.out.print("Hello World: " + blake3.finalize_string())
 ```
+
+# Full Documentation
+```pony
+class ref Blake3
+```
+
+## Constructors
+
+### create
+
+```pony
+new ref create()
+: Blake3 ref^
+```
+
+#### Returns
+
+* Blake3 ref^
+
+---
+
+### init_keyed
+
+```pony
+new ref init_keyed(
+  key: Array[U8 val] ref)
+: Blake3 ref^ ?
+```
+#### Parameters
+
+*   key: Array\[U8\] ref
+
+#### Returns
+
+* Blake3 ref^ ?
+
+---
+
+### init_derive_key
+
+```pony
+new ref init_derive_key(
+  context: String val)
+: Blake3 ref^
+```
+#### Parameters
+
+*   context: String val
+
+#### Returns
+
+* Blake3 ref^
+
+---
+
+## Public fields
+
+### let hasher: NullablePointer\[Blake3Hasher ref\] ref
+
+
+---
+
+## Public Functions
+
+### version
+
+
+```pony
+fun box version()
+: String iso^
+```
+
+#### Returns
+
+* String iso^
+
+---
+
+### update
+
+
+```pony
+fun box update(
+  input: Array[U8 val] box)
+: None val
+```
+#### Parameters
+
+*   input: Array\[U8 val\] box
+
+#### Returns
+
+* None val
+
+---
+
+### update_with_size
+
+
+```pony
+fun box update_with_size(
+  input: Array[U8 val] box,
+  size: USize val)
+: None val
+```
+#### Parameters
+
+*   input: Array\[U8 val\] box
+*   size: USize val
+
+#### Returns
+
+* None val
+
+---
+
+### finalize
+
+
+```pony
+fun box finalize(
+  outlen: USize val = call)
+: Array[U8 val] iso^
+```
+#### Parameters
+
+*   outlen: USize val = (Default: USize(32))
+
+#### Returns
+
+* Array\[U8 val\] iso^
+
+---
+
+### finalize_string
+
+
+```pony
+fun box finalize_string(
+  outlen: USize val = call)
+: String iso^
+```
+#### Parameters
+
+*   outlen: USize val = (Default: USize(32))
+
+#### Returns
+
+* String iso^
+
+---
+
+### finalize_seek
+
+
+```pony
+fun box finalize_seek(
+  seek: USize val = call,
+  outlen: USize val = call)
+: Array[U8 val] iso^
+```
+#### Parameters
+
+*   seek: USize val = (Default: USize(0))
+*   outlen: USize val = (Default: USize(32))
+
+#### Returns
+
+* Array\[U8 val\] iso^
+
+---
+
+### finalize_seek_string
+
+
+```pony
+fun box finalize_seek_string(
+  seek: USize val = call,
+  outlen: USize val = call)
+: String iso^
+```
+#### Parameters
+
+*   seek: USize val = (Default: USize(0))
+*   outlen: USize val = (Default: USize(32))
+
+#### Returns
+
+* String iso^
+
+---
+
+### reset
+
+
+```pony
+fun box reset()
+: None val
+```
+
+#### Returns
+
+* None val
+
+---
+
+### to_string
+
+
+```pony
+fun box to_string(
+  result: Array[U8 val] trn)
+: String iso^
+```
+#### Parameters
+
+*   result: Array\[U8 val\] trn
+
+#### Returns
+
+* String iso^
+
+---
+
