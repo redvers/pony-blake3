@@ -1,3 +1,6 @@
+use "lib:blake3"
+use "format"
+
 class Blake3
   let hasher: NullablePointer[Blake3Hasher]
 
@@ -33,11 +36,28 @@ class Blake3
     @blake3_hasher_finalize(hasher, outarray.cpointer(), outlen.u64())
     consume outarray
 
-  fun finalize_seek(seek: USize, outlen: USize = USize(32)): Array[U8] iso^ =>
+  fun finalize_string(outlen: USize = USize(32)): String iso^ =>
+    let result: Array[U8] iso = this.finalize(outlen)
+    let str: String iso = this.to_string(consume result)
+    consume str
+
+  fun finalize_seek(seek: USize = USize(0), outlen: USize = USize(32)): Array[U8] iso^ =>
     let outarray: Array[U8] iso = recover iso Array[U8].init(0, outlen) end
     @blake3_hasher_finalize_seek(hasher, seek.u64(), outarray.cpointer(), outlen.u64())
     consume outarray
 
+  fun finalize_seek_string(seek: USize = USize(0), outlen: USize = USize(32)): String iso^ =>
+    let result: Array[U8] iso = this.finalize_seek(seek, outlen)
+    let str: String iso = this.to_string(consume result)
+    consume str
+
   fun reset() =>
     @blake3_hasher_reset(hasher)
+
+  fun to_string(result: Array[U8] trn): String iso^ =>
+    let output: String iso = recover iso String end
+    for f in result.values() do
+      output.append(Format.int[U8](f where prec=2, fmt = FormatHexSmallBare))
+    end
+    consume output
 
