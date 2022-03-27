@@ -57,6 +57,8 @@ class ref Blake3
 
 ### create
 
+Creates and initializes a Blake3 Hasher in the default hashing mode
+
 ```pony
 new ref create()
 : Blake3 ref^
@@ -69,6 +71,10 @@ new ref create()
 ---
 
 ### init_keyed
+
+Creates and initializes a Blake3 Hasher in the keyed hashing mode.  The provided
+key must be exactly 32 bytes.  If the key provided is not 32 Bytes in size then
+this constructor will throw an error.
 
 ```pony
 new ref init_keyed(
@@ -87,6 +93,10 @@ new ref init_keyed(
 
 ### init_derive_key
 
+Initialize a Blake3 Hasher in the key derivation mode.  The context string is
+given as an initialization parameter.  Per the upstream documentation, this
+string should be: "hardcoded, globally unique, and application-specific".
+
 ```pony
 new ref init_derive_key(
   context: String val)
@@ -102,17 +112,12 @@ new ref init_derive_key(
 
 ---
 
-## Public fields
-
-### let hasher: NullablePointer\[Blake3Hasher ref\] ref
-
-
----
-
 ## Public Functions
 
 ### version
 
+Returns the version of libblake3 which this pony program is linked against.
+This library was authored against version 1.3.1.
 
 ```pony
 fun box version()
@@ -127,6 +132,12 @@ fun box version()
 
 ### update
 
+This adds input to the hasher.  This can be called any number of times.  The
+size of the input is automatically derived from the size of the Array\[U8\].
+
+NOTE: If you are reüsing an Array\[U8\] as a buffer, you need to be certain
+that the size is what you expect.  If you want to be explict, you should
+use update\_with\_size() instead.
 
 ```pony
 fun box update(
@@ -145,6 +156,8 @@ fun box update(
 
 ### update_with_size
 
+This adds input to the hasher.  This can be called any number of times. The
+number of bytes provided to the hasher is explicitly stated.
 
 ```pony
 fun box update_with_size(
@@ -165,6 +178,9 @@ fun box update_with_size(
 
 ### finalize
 
+Finalize the hasher and return an output of any length, given in bytes. This
+doesn't modify the hasher itself, and it's possible to finalize again after
+adding more input. The default length is 32 Bytes.
 
 ```pony
 fun box finalize(
@@ -183,6 +199,11 @@ fun box finalize(
 
 ### finalize_string
 
+Finalize the hasher and return an output of any length, given in bytes. This
+doesn't modify the hasher itself, and it's possible to finalize again after
+adding more input. The default length is 32 Bytes.
+
+Output is returned as a Lower-cased Hex String.
 
 ```pony
 fun box finalize_string(
@@ -201,6 +222,10 @@ fun box finalize_string(
 
 ### finalize_seek
 
+The same as finalize, but with an additional seek parameter for the starting
+byte position in the output stream. To efficiently stream a large output
+without allocating memory, call this function in a loop, incrementing seek
+by the output length each time.
 
 ```pony
 fun box finalize_seek(
@@ -221,6 +246,12 @@ fun box finalize_seek(
 
 ### finalize_seek_string
 
+The same as finalize, but with an additional seek parameter for the starting
+byte position in the output stream. To efficiently stream a large output
+without allocating memory, call this function in a loop, incrementing seek
+by the output length each time.
+
+Output is returned as a Lower-cased Hex String.
 
 ```pony
 fun box finalize_seek_string(
@@ -241,6 +272,9 @@ fun box finalize_seek_string(
 
 ### reset
 
+Reset the hasher to its initial state, prior to any calls to ```update()```.
+This is useful in the case of hashing many things in a loop.
+
 
 ```pony
 fun box reset()
@@ -250,24 +284,6 @@ fun box reset()
 #### Returns
 
 * None val
-
----
-
-### to_string
-
-
-```pony
-fun box to_string(
-  result: Array[U8 val] trn)
-: String iso^
-```
-#### Parameters
-
-*   result: Array\[U8 val\] trn
-
-#### Returns
-
-* String iso^
 
 ---
 
