@@ -16,6 +16,9 @@ git cloning github.com/redvers/pony-blake3.git into /home/red/pony-blake-test/_r
 git checking out @main into /home/red/pony-blake-test/_corral/github_com_redvers_pony_blake3
 ```
 
+*NB*: You are responsible for compiling libblake3 and ensuring that it
+can be found by the ponyc compiler.
+
 # Simple Example:
 
 ```pony
@@ -207,12 +210,12 @@ Output is returned as a Lower-cased Hex String.
 
 ```pony
 fun box finalize_string(
-  outlen: USize val = call)
+  outlen: USize val = 32)
 : String iso^
 ```
 #### Parameters
 
-*   outlen: USize val = (Default: USize(32))
+*   outlen: USize val
 
 #### Returns
 
@@ -229,14 +232,14 @@ by the output length each time.
 
 ```pony
 fun box finalize_seek(
-  seek: USize val = call,
-  outlen: USize val = call)
+  seek: USize val = 0,
+  outlen: USize val = 32)
 : Array[U8 val] iso^
 ```
 #### Parameters
 
-*   seek: USize val = (Default: USize(0))
-*   outlen: USize val = (Default: USize(32))
+*   seek: USize val
+*   outlen: USize val
 
 #### Returns
 
@@ -255,14 +258,14 @@ Output is returned as a Lower-cased Hex String.
 
 ```pony
 fun box finalize_seek_string(
-  seek: USize val = call,
-  outlen: USize val = call)
+  seek: USize val = 0,
+  outlen: USize val = 32)
 : String iso^
 ```
 #### Parameters
 
-*   seek: USize val = (Default: USize(0))
-*   outlen: USize val = (Default: USize(32))
+*   seek: USize val
+*   outlen: USize val
 
 #### Returns
 
