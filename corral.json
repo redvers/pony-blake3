@@ -1,0 +1,14 @@
+{
+  "deps": [],
+  "packages": [
+    "pony-blake3"
+  ],
+  "info": {
+    "description": "Ponylang binding to libblake3",
+    "homepage": "https://github.com/redvers/pony-blake3",
+    "license": "BSD-2-Clause",
+    "documentation_url": "",
+    "version": "0.0.1",
+    "name": "pony-blake3"
+  }
+}
